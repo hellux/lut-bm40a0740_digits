@@ -38,7 +38,7 @@ function pixels = draw_line_wu(x0, y0, x1, y1)
 
     dx = x1-x0; dy = y1-y0;
     if dx == 0
-        gradient = 1
+        gradient = 1;
     else
         gradient = dy/dx;
     end
