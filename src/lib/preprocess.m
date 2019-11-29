@@ -10,6 +10,7 @@ function d_new = normalize(d, W)
     w = dmax(1)-dmin(1); h = dmax(2)-dmin(2);
     scale = W/max(w, h);
     x_start = (W-w*scale)/2;
+    y_start = (W-h*scale)/2;
 
     d_new = zeros(n, 2);
     for k = 1:n
