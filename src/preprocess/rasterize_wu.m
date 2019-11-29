@@ -1,25 +1,3 @@
-% apply all preprocessing steps to a digit
-function d_new = preprocess(d, W)
-    d_new = normalize(d, W);
-    d_new = rasterize_wu(d_new, W, @(a, b) min(1, a+b));
-end
-
-% scale and center digit to WxW square
-function d_new = normalize(d, W)
-    n = length(d);
-    dmin = min(d); dmax = max(d);
-    w = dmax(1)-dmin(1); h = dmax(2)-dmin(2);
-    scale = 0.8*W/max(w, h);
-    x_start = (W-w*scale)/2;
-    y_start = (W-h*scale)/2;
-
-    d_new = zeros(n, 2);
-    for k = 1:n
-        d_new(k, 1) = x_start + (d(k, 1)-dmin(1))*scale;
-        d_new(k, 2) = y_start + (d(k, 2)-dmin(2))*scale;
-    end
-end
-
 % rasterize line segments of curve using Wu's algorithm
 function img = rasterize_wu(curve, W, f_merge)
     img = zeros(W, W);
