@@ -2,7 +2,7 @@ clc;
 clearvars;
 close all;
 
-addpath('src/lib');
+addpath('src/data');
 addpath('src/preprocess');
 addpath('src/training');
 
