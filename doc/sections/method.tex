@@ -48,19 +48,31 @@ scale can therefore be changed without losing any useful information. Figure
 \begin{figure}
     \centering
     \begin{subfigure}[c]{0.3\textwidth}
+        \vspace*{-3.5mm}
         \resizebox{\textwidth}{!}{\input{build/fig/rasterize_0.tex}}
-        \caption{Six, scaled}
+        \vspace*{-10mm}
+        \caption{Scaled}
     \end{subfigure}%
     {\Large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
-        %\includegraphics{build/fig/rasterize_1.png}
-        \caption{Six, rasterized}
-    \end{subfigure}
+        \centering
+        \resizebox{0.8\textwidth}{!}{%
+            \includegraphics{build/fig/rasterize_1.png}%
+        }
+        \vfill
+        \caption{Rasterized}
+    \end{subfigure}%
     {\Large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
-        %\includegraphics{build/fig/rasterize_2.png}
-        \caption{Six, dilated}
+        \centering
+        \resizebox{0.8\textwidth}{!}{%
+            \includegraphics{build/fig/rasterize_2.png}%
+        }
+        \vfill
+        \caption{Dilated}
     \end{subfigure}%
+    \caption{Rasterization of a two with some noise.}
+    \label{fig:raster_noise}
 \end{figure}
 Because the digits are written at different locations and in different sizes,
 rescaling and translation is performed to make similar shaped images
@@ -70,8 +82,8 @@ scale can therefore be changed without losing any useful information. Figure
 When the digits are located in the same position and are of similar scale the
 digits can be rasterized. The rasterization is performed by rasterizing each
 line of the curve. The rasterization is performed by using Xiaolin Wu's line
-drawing algorithm. The algorithm gives a greyscale anti-aliased line, this can
-be useful in order to distinguish edges of curves.
+drawing algorithm. The algorithm is described in Wu's article in Computer
+Graphics. \cite{wu-line}
 
 Each rasterized curve is then added to the final image by taking the maximum
 intensity of the previous pixel and the pixel of the curve.
@@ -88,11 +100,19 @@ matrix
     \end{bmatrix}.
 \end{equation*}
 In this way, the inner pixels of digits will be 1 and the edges will be between
-0 and 1, which could be useful for the classifier.
+0 and 1, which could be useful for the classifier because the same digit
+usually have edges in around the same location.
+
+One good thing about rasterization is that it decreases the impact of noise as
+is demonstrated in figure \ref{fig:raster_noise}. Also, duplicate overlapping
+lines will look the same as if there was only one line.
 
 \subsection{Neural network}
 The classifier was implemented using a multi-layer perceptron with one hidden
 layer. The input layer consists of all the pixels of the image resulting from
 the preprocessing of the input.
+
+The single hidden layer contains 10 neurons.  A lower number appears to
+decrease the performance while increasing only increases the training time.
 
 \end{document}
