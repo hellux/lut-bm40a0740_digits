@@ -1,7 +1,18 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 
-\input{format.tex}
+\input{doc/vars.tex}
+\input{doc/format.tex}
 
 \begin{document}
+
+\subfile{doc/sections/cover}
+\clearpage\tableofcontents
+\clearpage\subfile{doc/sections/intro}
+\clearpage\subfile{doc/sections/method}
+\clearpage\subfile{doc/sections/result}
+
+\clearpage
+\bibliography{doc/ref.bib}{}
+\bibliographystyle{plain}
 
 \end{document}

@@ -1,0 +1,98 @@
+\documentclass[report.tex]{subfile}
+
+\begin{document}
+
+\section{Method}
+
+\subsection{Preprocessing}
+The input data for each data is given as a list of 3D-coordinates that together
+form a curve in the shape of a digit. As the digits are aligned along the plane
+of the XY axes, the Z-coordinate is simply ignored and the curves are treated
+as 2D only. The digits are first translated and scaled to a common location and
+size and then rasterized into a grayscale image. The grayscale image is then
+dilated so that the digits become thicker. The intensity of each pixel is
+finally treated as a large vector. Each pixel represents an input neuron in the
+neural network.
+
+\subsubsection{Scaling}
+\begin{figure}
+    \centering
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_before1.tex}}
+        \caption{Six \#1, raw}
+    \end{subfigure}%
+    {\Huge $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_after1.tex}}
+        \caption{Six \#1, scaled}
+    \end{subfigure}\\
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_before2.tex}}
+        \caption{Six \#2, raw}
+    \end{subfigure}%
+    {\Huge $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_after2.tex}}
+        \caption{Six \#2, scaled}
+    \end{subfigure}
+    \caption{Two sixes before and after rescaling.}
+    \label{fig:scaling}
+\end{figure}
+Because the digits are written at different locations and in different sizes,
+rescaling and translation is performed to make similar shaped images
+comparable. Only the shape of the digit is interesting and the location and
+scale can therefore be changed without losing any useful information. Figure
+\ref{fig:scaling} shows two sixes being scaled.
+
+\subsubsection{Rasterization}
+\begin{figure}
+    \centering
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/rasterize_0.tex}}
+        \caption{Six, scaled}
+    \end{subfigure}%
+    {\Large $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
+        %\includegraphics{build/fig/rasterize_1.png}
+        \caption{Six, rasterized}
+    \end{subfigure}
+    {\Large $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
+        %\includegraphics{build/fig/rasterize_2.png}
+        \caption{Six, dilated}
+    \end{subfigure}%
+\end{figure}
+Because the digits are written at different locations and in different sizes,
+rescaling and translation is performed to make similar shaped images
+comparable. Only the shape of the digit is interesting and the location and
+scale can therefore be changed without losing any useful information. Figure
+\ref{fig:scaling} shows two sixes being scaled.
+When the digits are located in the same position and are of similar scale the
+digits can be rasterized. The rasterization is performed by rasterizing each
+line of the curve. The rasterization is performed by using Xiaolin Wu's line
+drawing algorithm. The algorithm gives a greyscale anti-aliased line, this can
+be useful in order to distinguish edges of curves.
+
+Each rasterized curve is then added to the final image by taking the maximum
+intensity of the previous pixel and the pixel of the curve.
+
+Finally, dilation is performed to make the digits thicker. The dilation is
+performed by applying a two-dimensional convolution to the image with the
+matrix
+\begin{equation*}
+    D =
+    \begin{bmatrix}
+        0.5 & 0.8 & 0.5 \\
+        0.8 &   1 & 0.8 \\
+        0.5 & 0.8 & 0.5
+    \end{bmatrix}.
+\end{equation*}
+In this way, the inner pixels of digits will be 1 and the edges will be between
+0 and 1, which could be useful for the classifier.
+
+\subsection{Neural network}
+The classifier was implemented using a multi-layer perceptron with one hidden
+layer. The input layer consists of all the pixels of the image resulting from
+the preprocessing of the input.
+
+\end{document}
