@@ -25,8 +25,6 @@ c = zeros(n, 1);
 for i = 1:n
     c(i) = classify_mlp(ts{i}, wHidden, wOutput);
 end
-err = sum(c ~= tsclass);
-1 - err / length(tsclass)
 con = confusion(tsclass, c)
 f1_score(con)
 disp('done.');

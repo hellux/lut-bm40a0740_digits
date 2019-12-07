@@ -50,4 +50,5 @@ function [wHidden, wOutput] = ...
         wOutput = wOutput + deltawOutput;
         wHidden = wHidden + deltawHidden;
     end
+    disp(t)
 end
