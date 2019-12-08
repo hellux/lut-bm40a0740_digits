@@ -1,20 +1,25 @@
-function [train, test, val] = split_data(data, p_train, p_test, p_val)
+function [set1, set2, idx1, idx2] = split_data(data, p1, p2)
     m = length(data);
-    total = p_train+p_test+p_val;
-    split1 = p_train/total;
-    split2 = (p_train+p_test)/total;
+    split = p1/(p1+p2);
 
-    train = cell(1, m);
-    test = cell(1, m);
-    val = cell(1, m);
+    set1 = cell(1, m);
+    set2 = cell(1, m);
+    idx1 = [];
+    idx2 = [];
+    j = 1;
     for i = 1:m
         n = length(data{i});
-        indices = randperm(n);
-        split1n = floor(split1*n);
-        split2n = floor(split2*n);
+        splitn = floor(split*n);
 
-        train{i} = data{i}(1, indices(1:split1n));
-        test{i}  = data{i}(1, indices(split1n+1:split2n));
-        val{i}   = data{i}(1, indices(split2n+1:end));
+        indices = randperm(n);
+        indices1 = indices(1:splitn);
+        indices2 = indices(splitn+1:end);
+
+        set1{i} = data{i}(1, indices1);
+        set2{i} = data{i}(1, indices2);
+        idx1 = [idx1 indices1+j];
+        idx2 = [idx2 indices2+j];
+
+        j = j + n;
     end
 end
