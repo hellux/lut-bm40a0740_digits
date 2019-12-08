@@ -17,6 +17,7 @@ mins = mins(1, :)-20;
 maxs = maxs(1, :)+20;
 w = maxs(1)-mins(1);
 h = maxs(2)-mins(2);
+s = maxs(3)-mins(3);
 W0 = max(w, h);
 texscale = '-S200,200';
 dir = 'build/fig/';
@@ -32,6 +33,13 @@ for i = 1:length(digits)
     y_start = mins(2) - (W0-h)/2;
     x_end = x_start + W0;
     y_end = y_start + W0;
+    z_start = mins(1) - (W0-s)/2;
+    z_end = z_start + W0;
+
+    figure('visible', 'off');
+    plot3(d(:, 1), d(:, 3), d(:, 2));
+    axis([x_start x_end z_start z_end y_start y_end], 'square');
+    print(strcat(dir, 'scale_3d', suffix), '-dtex', texscale);
 
     figure('visible', 'off');
     plot(d(:, 1), d(:, 2));
