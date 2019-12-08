@@ -149,27 +149,32 @@ W -- input \\
 H -- hidden \\
 D -- output \\
 
-\begin{align}
-&x \in M_{W \times 1}, \qquad
-\overline x = \left( x, 1 \right) \in M_{(W+1) \times 1}, \\
-&y^h \in M_{H \times 1}, \qquad
-\overline y^h = \left( y^h, 1 \right) \in M_{(H+1) \times 1}, \\
-&y^o \in M_{D \times 1}, \\
-&w^h \in M_{H \times (W + 1)}, \qquad
-\overline w^h \in M_{H \times W}, \\
-&w^o \in M_{D \times (H + 1)}, \qquad
-\overline w^o \in M_{D \times H} \\
-&y^h_i = \tanh \left( \sum_{k=1}^{W} x_k w^h_{i,k} + w^h_{i,W+1} \right) = \tanh \left( w^h_i \cdot \overline x \right), \\
-&i = 1..H, \\
-&y^o_j = \sum_{i=1}^{H} y^h_i w^o_{j,i} + w^o_{j,H+1} = w^o_j \cdot \overline y^h, \\
-&j = 1..D, \\
-&J = \frac{(y^o - y^w)^2}{2}, \\
-&w^h_{i,k} = w^h_{i,k} - \rho \; \frac{\partial J}{\partial w^h_{i,k}} \\
-&w^o_{j,i} = w^o_{j,i} - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
-\end{align}
+\begin{align*}
+    &x \in M_{W \times 1}, \qquad
+    \overline x = \left( x, 1 \right) \in M_{(W+1) \times 1}, \\
+    &y^h \in M_{H \times 1}, \qquad
+    \overline y^h = \left( y^h, 1 \right) \in M_{(H+1) \times 1}, \\
+    &y^o \in M_{D \times 1}, \\
+    &w^h \in M_{H \times (W + 1)}, \qquad
+    \overline w^h \in M_{H \times W}, \\
+    &w^o \in M_{D \times (H + 1)}, \qquad
+    \overline w^o \in M_{D \times H} \\
+    &y^h_i = \tanh \left( \sum_{k=1}^{W} x_k w^h_{i,k} + w^h_{i,W+1} \right)
+           = \tanh \left( w^h_i \cdot \overline x \right), \\
+    &i = 1..H, \\
+    &y^o_j = \sum_{i=1}^{H} y^h_i w^o_{j,i} + w^o_{j,H+1}
+           = w^o_j \cdot \overline y^h, \\
+    &j = 1..D, \\
+\end{align*}
 
 \subsubsection{Backpropagation}
-% TODO math expressions
+\begin{align*}
+    &J = \frac{(y^o - y^w)^2}{2}, \\
+    &w^h_{i,k} = w^h_{i,k} - \rho \; \frac{\partial J}{\partial w^h_{i,k}}
+               = w^h_{i,k} - \rho \; x_k w^o_{i,k}(y^o - y^w)\\
+    &w^o_{j,i} = w^o_{j,i} - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
+               = w^h_{j,i} - \rho \; \overline y^h_i (y^o_j - y^w_j)\\
+\end{align*}
 
 \subsubsection{Training}
 A classifier, i.e. the weights for the network, are created by applying the
