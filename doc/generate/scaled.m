@@ -15,7 +15,9 @@ for i = 1:length(digits)
 end
 mins = mins(1, :)-20;
 maxs = maxs(1, :)+20;
-W0 = max(maxs-mins);
+w = maxs(1)-mins(1);
+h = maxs(2)-mins(2);
+W0 = max(w, h);
 texscale = '-S200,200';
 dir = 'build/fig/';
 
@@ -26,9 +28,14 @@ for i = 1:length(digits)
     scaled = rescale(d, W-2);
     suffix = strcat(int2str(i), '.tex');
 
+    x_start = mins(1) - (W0-w)/2;
+    y_start = mins(2) - (W0-h)/2;
+    x_end = x_start + W0;
+    y_end = y_start + W0;
+
     figure('visible', 'off');
     plot(d(:, 1), d(:, 2));
-    axis([mins(1) mins(1)+W0 mins(2) mins(2)+W0], 'square');
+    axis([x_start x_end y_start y_end], 'square');
     print(strcat(dir, 'scale_before', suffix), '-dtex', texscale);
 
     figure('visible', 'off');
