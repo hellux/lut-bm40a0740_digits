@@ -1,54 +1,35 @@
 function [wHidden, wOutput] = ...
-  mlp(traindata, trainclass, maxEpochs, hidden)
+  mlp(traindata, trainclass, maxEpochs, hiddenNeurons)
+    ERR_THRESH = 1e-12;
+    ERR_CHANG_THRESH = 1e-12;
 
-    N = size(traindata, 1);
-    d = size(traindata, 2);
-    classes = max(trainclass);
+    N = size(traindata, 1); % Number of samples
+    d = size(traindata, 2); % Number of dimensions per sample
+    classcount = max(trainclass);
 
-    J = zeros(1, maxEpochs);
-
-    rho = 0.0001;
-
-    trainOutput = zeros(classes,N);
+    % Wanted output layers.
+    trainOutput = zeros(classcount, N);
     for i = 1:N
         trainOutput(trainclass(i), i) = 1;
     end
 
-    extendedInput = [traindata ones(N, 1)];
+    % Extend input layer with bias.
+    x = [traindata ones(N, 1)];
 
-    wHidden = (rand(d+1, hidden) - 0.5) / 10;
-    wOutput = (rand(hidden+1, classes) - 0.5) / 10;
+    % Set random initial weights.
+    wHidden = (rand(d+1, hiddenNeurons) - 0.5) / 10;
+    wOutput = (rand(hiddenNeurons+1, classcount) - 0.5) / 10;
 
-    t = 0;
-    while 1
-        t = t + 1;
+    err_prev = 0;
+    for t = 1:maxEpochs
+        [yOutput, yHidden] = feedforward(x, wHidden, wOutput);
+        [wOutput, wHidden] = backpropagate(x, wHidden, wOutput,
+                                              yHidden, yOutput, trainOutput);
 
-        [yOutput, yHidden] = feedforward(extendedInput, wHidden, wOutput);
-
-        J(t) = sum(sum((yOutput-trainOutput).^2))/2;
-
-        if (J(t) < 1e-12)
+        err = sum(sum((yOutput-trainOutput).^2))/2;
+        if err < ERR_THRESH || (t > 1 && abs(err-err_prev) < ERR_CHANG_THRESH)
             break;
         end
-
-        if (t >= maxEpochs)
-            break;
-        end
-
-        if t > 1
-            if abs(J(t) - J(t-1)) < 1e-12
-                break;
-            end
-        end
-
-        deltaOutput = (yOutput-trainOutput);
-        deltaHidden = (wOutput(1:end-1, :)*deltaOutput) .* ...
-                      (1 - yHidden(1:end-1,:).^2);
-
-        deltawHidden = -rho*extendedInput'*deltaHidden';
-        deltawOutput = -rho*yHidden*deltaOutput';
-        wOutput = wOutput + deltawOutput;
-        wHidden = wHidden + deltawHidden;
+        err_prev = err;
     end
-    disp(t)
 end

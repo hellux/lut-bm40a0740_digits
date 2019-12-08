@@ -1,5 +1,5 @@
-function [yOutput, yHidden] = feedforward(extendedInput, wHidden, wOutput)
-    vHidden = wHidden'*extendedInput';
+function [yOutput, yHidden] = feedforward(x, wHidden, wOutput)
+    vHidden = wHidden'*x';
     yHidden = tanh(vHidden);
 
     N = size(yHidden, 2);
