@@ -3,8 +3,18 @@
 \begin{document}
 
 \section{Method}
+This section covers the steps taken in order to create and evaluate the
+classifer.
 
-\subsection{Data subsets partitioning}
+\subsection{Partitioning of training data}
+The training data is split up into three different subsets. Two sets are used
+for the training process; the training set and the validation set. The training
+set is used to train multiple classifiers with different parameters, and the
+validation set is used to select which of these classifiers to use. The third
+and final set, the test set, is used after the training is completed in order
+to evaluate how well the classifier performs. The subsets were split uniformly
+for each digit and the distribution was 70\%, 10\% and 20\% for the training,
+validation and test set respectively.
 
 \subsection{Preprocessing}
 The input data for each data is given as a list of 3D-coordinates that together
@@ -20,24 +30,34 @@ neural network.
 \begin{figure}
     \centering
     \begin{subfigure}[c]{0.3\textwidth}
-        \resizebox{\textwidth}{!}{\input{build/fig/scale_before1.tex}}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_3d1.tex}}
         \caption{Six \#1, raw}
     \end{subfigure}%
-    {\Huge $\rightarrow$}
+    {\large $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_before1.tex}}
+        \caption{Six \#1, projected}
+    \end{subfigure}%
+    {\large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
         \resizebox{\textwidth}{!}{\input{build/fig/scale_after1.tex}}
         \caption{Six \#1, scaled}
     \end{subfigure}\\
     \begin{subfigure}[c]{0.3\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/scale_3d2.tex}}
+        \caption{Six \#1, projected}
+    \end{subfigure}%
+    {\large $\rightarrow$}
+    \begin{subfigure}[c]{0.3\textwidth}
         \resizebox{\textwidth}{!}{\input{build/fig/scale_before2.tex}}
         \caption{Six \#2, raw}
     \end{subfigure}%
-    {\Huge $\rightarrow$}
+    {\large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
         \resizebox{\textwidth}{!}{\input{build/fig/scale_after2.tex}}
         \caption{Six \#2, scaled}
     \end{subfigure}
-    \caption{Two sixes before and after rescaling.}
+    \caption{Two sixes before and after projection and scaling.}
     \label{fig:scaling}
 \end{figure}
 Because the digits are written at different locations and in different sizes,
@@ -55,7 +75,7 @@ scale can therefore be changed without losing any useful information. Figure
         \vspace*{-10mm}
         \caption{Scaled}
     \end{subfigure}%
-    {\Large $\rightarrow$}
+    {\large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
         \centering
         \resizebox{0.8\textwidth}{!}{%
@@ -64,7 +84,7 @@ scale can therefore be changed without losing any useful information. Figure
         \vfill
         \caption{Rasterized}
     \end{subfigure}%
-    {\Large $\rightarrow$}
+    {\large $\rightarrow$}
     \begin{subfigure}[c]{0.3\textwidth}
         \centering
         \resizebox{0.8\textwidth}{!}{%
@@ -80,12 +100,13 @@ Because the digits are written at different locations and in different sizes,
 rescaling and translation is performed to make similar shaped images
 comparable. Only the shape of the digit is interesting and the location and
 scale can therefore be changed without losing any useful information. Figure
-\ref{fig:scaling} shows two sixes being scaled.
+\ref{fig:scaling} shows two sixes being scaled. 
+
 When the digits are located in the same position and are of similar scale the
 digits can be rasterized. The rasterization is performed by rasterizing each
 line of the curve. The rasterization is performed by using Xiaolin Wu's line
-drawing algorithm. The algorithm is described in Wu's article in Computer
-Graphics. \cite{wu-line}
+drawing algorithm. The algorithm is described in Wu's article in \emph{Computer
+Graphics}\cite{wu-line}.
 
 Each rasterized curve is then added to the final image by taking the maximum
 intensity of the previous pixel and the pixel of the curve.
@@ -109,14 +130,34 @@ One good thing about rasterization is that it decreases the impact of noise as
 is demonstrated in figure \ref{fig:raster_noise}. Also, duplicate overlapping
 lines will look the same as if there was only one line.
 
-\subsection{Training of neural network}
+\subsection{Neural network - multilayer perceptron}
+\begin{figure}
+    \centering
+    \input{doc/fig/mlp.tex}
+    \caption{}
+    \label{fig:mlp}
+\end{figure}
 The classifier was implemented using a multi-layer perceptron with one hidden
-layer. The input layer consists of all the pixels of the image resulting from
-the preprocessing of the input.
+layer. The input layer consists of all the intensities of the pixels of the
+grayscale image resulting from the preprocessing of the input. An additional
+fully white pixel is added in order to provide a bias for the weights.
 
-The single hidden layer contains 10 neurons.  A lower number appears to
-decrease the performance while increasing only increases the training time.
+The details of a multi-layer perceptron is described in chapter 6 of the book
+\emph{Pattern Classification}\cite{hart-pattern}. Here will only be described
+shortly how the classifier of this project was implemented.
 
-\subsection{Evaluation}
+\subsubsection{Feedforward}
+% TODO math expressions
+
+\subsubsection{Backpropagation}
+% TODO math expressions
+
+\subsubsection{Training}
+
+\subsubsection{Classification}
+In order to classify a digit the the digit is preprocessed as described above
+and the resulting pixels are used as the input for the neural network with the
+weights provided by the training. The feedforward operation is performed and
+the strongest output neuron determines the classification of the digit.
 
 \end{document}
