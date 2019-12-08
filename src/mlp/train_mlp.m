@@ -13,7 +13,7 @@ function [wHiddenFinal, wOutputFinal, hiddenFinal, f1Max] = train_mlp(raw, train
     wOutputFinal = [];
     f1Max = 0;
     hiddenFinal = 0;
-    for hiddenNeurons = 10:1:30
+    for hiddenNeurons = 10:1:25
         fprintf('running MLP.. ');
         [wHidden, wOutput] = mlp(traindata, trainclass, maxEpochs, hiddenNeurons);
         disp('done.');
