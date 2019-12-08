@@ -1,0 +1,30 @@
+\documentclass[report.tex]{subfile}
+
+\begin{document}
+
+\section{Discussion and conclusion}
+
+\subsection{Method}
+
+\subsection{Result}
+Initially, there were some worries concerning the given training data. Some
+were very crookedly drawn or very noisy. Interestingly enough, none of these
+were wrongly classified by the final classifier. The misclassified digits look
+perfectly drawn and were not at all difficult to read for a human. Also, some
+of the ones from the given training data very much look like sevens, and some
+of the sevens very much look like ones. Despite this, the classifier didn't mix
+up any ones with sevens or vice versa. It did however have problems with some
+sevens, but classified them as 9 or 5 instead.
+
+Changing the setup of the data didn't seem to change very much the performance
+of the classifier. The F1 score stayed above 90\% for all setups except when
+the dilation was removed. Without dilation, every run performed worse than with
+dilation. This suggests that the dilation may have somehow helped the neural
+network.
+
+The F1 score almost went below 90\% when the learning rate was set low while
+maintaining the same number of iterations, but with more iterations it went up
+to 95\%. It seems that 1000 iterations is not enough to converge with that low
+of a learning rate.
+
+\end{document}

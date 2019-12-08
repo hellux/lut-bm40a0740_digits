@@ -8,16 +8,16 @@ section. The total training set was 1000 digits, the number of digits was 700,
 100 and 200 in the training, validation and testing set respectively.
 
 \subsection{Validation}
-The training phase produced 21 classifiers, with number of hidden neurons from
-10 to 30. The classifier that performed the best on the validation set was the
-one with 13 neurons in the hidden layer. It correctly classified 95\% of the
-samples in the validation set.
+The training phase produced 16 different classifiers, the classifier that
+performed the best on the validation set was the one with 13 neurons in the
+hidden layer. It correctly classified 95\% of the samples in the validation
+set.
 
 \subsection{Testing}
 The selected classifier from the validation phase was tested on the training
 set. The resulting confusion matrix is shown in \ref{fig:confusion}. The
 classifier classified 96.5\% of the digits in the testing set correctly.
-Previous runs created classifiers with similare results, ranging from 92\% to
+Previous runs created classifiers with similar results, ranging from 92\% to
 97\%.
 
 7 of the 200 digits in the testing set were misclassified. These are shown in
@@ -52,13 +52,36 @@ figure \ref{fig:incorrect}.
     \label{fig:confusion}
 \end{table}
 
+\subsection{Differing setups}
+Further runs were made with different setups, changing different parameters but
+keeping the method described. The parameters and results from the validation
+and testing are shown in \ref{fig:runs}.
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{rrrrr|rrr}
+        dilation & set distribution & W & $\rho$ & iterations &
+        hidden & F1 (validation) & F1 (test) \\\hline
 
-
-
-
-
-
-
+        yes & (70, 10, 20) & 20 & 0.0001  & 1000 & 13 & 95.0\% & 96.5\% \\
+        yes & (70, 10, 20) & 20 & 0.0001  & 1000 & 24 & 98.0\% & 92.5\% \\
+        yes & (70, 10, 20) & 20 & 0.0001  & 1000 & 21 & 98.0\% & 94.5\% \\
+        no  & (70, 10, 20) & 20 & 0.0001  & 1000 & 13 & 84.0\% & 89.5\% \\
+        no  & (70, 10, 20) & 20 & 0.0001  & 1000 & 11 & 93.0\% & 90.5\% \\
+        no  & (70, 10, 20) & 20 & 0.0001  & 1000 & 14 & 93.0\% & 91.0\% \\
+        yes & (70, 10, 20) & 17 & 0.0001  & 1000 & 21 & 99.0\% & 92.5\% \\
+        yes & (70, 10, 20) & 25 & 0.0001  & 1000 & 21 & 97.0\% & 91.5\% \\
+        yes & (70, 10, 20) & 35 & 0.0001  & 1000 & 13 & 96.0\% & 91.5\% \\
+        yes & (70, 20, 10) & 20 & 0.0001  & 1000 & 18 & 92.0\% & 96.0\% \\
+        yes & (60, 30, 10) & 20 & 0.0001  & 1000 & 14 & 99.3\% & 94.0\% \\
+        yes & (50, 40, 10) & 20 & 0.0001  & 1000 & 21 & 95.5\% & 94.0\% \\
+        yes & (70, 10, 20) & 20 & 0.0003  & 1000 & 12 & 97.0\% & 94.0\% \\
+        yes & (70, 10, 20) & 20 & 0.00005 & 1000 & 12 & 90.0\% & 90.5\% \\
+        yes & (70, 10, 20) & 20 & 0.00005 & 3000 & 20 & 97.0\% & 95.5\% \\
+        yes & (70, 10, 20) & 20 & 0.00001 & 1000 & 12 & 99.0\% & 94.0\% \\
+    \end{tabular}
+    \caption{Results of various runs with different setups.}
+    \label{fig:runs}
+\end{table}
 
 \end{document}

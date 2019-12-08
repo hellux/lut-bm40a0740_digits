@@ -13,23 +13,41 @@
         |[plain]| \parbox{1.3cm}{\centering Input layer} &
         |[plain]| \parbox{1.3cm}{\centering Hidden\\layer} &
         |[plain]| \parbox{1.3cm}{\centering Output\\layer} \\
-                  & |[plain]| \\
-        |[plain]| & \\
-                  & |[plain]| \\
-        |[plain]| & |[plain]| \\
-                  & & \\
-        |[plain]| & |[plain]| \\
-                  & |[plain]| \\
-        |[plain]| & \\
-                  & |[plain]| \\
+                  & |[plain]| & \\
+        |[plain]| &             \\
+                  & |[plain]| & \\
+        |[plain]| & |[plain]|   \\
+                  &           & \\
+        |[plain]| & |[plain]|   \\
+                  & |[plain]| & \\
+        |[plain]| &             \\
+                  & |[plain]| & \\
     };
-    \foreach \ai [count=\mi ]in {2,4,...,10}
-        \draw[<-] (mat-\ai-1) -- node[above] {Pixel \mi} +(-2cm,0);
-    \foreach \ai in {2,4,...,10}
-    {\foreach \aii in {3,6,9}
-        \draw[->] (mat-\ai-1) -- (mat-\aii-2);
-    }
+
+    % Neurons
+    \foreach \ai in {2,4}
+        \node at (mat-\ai-1) {$x_{1}$};
+    \node at (mat-6-1) {$\vdots$};
+    \node at (mat-8-1) {$x_{W}$};
+    \node at (mat-10-1) {$1$};
+
+    \node at (mat-3-2) {$y^h_1$};
+    \node at (mat-6-2) {\vdots};
+    \node at (mat-9-2) {$y^h_H$};
+
+    \foreach \ai in {2,4,...,6}
+        \node at (mat-\ai-3) {$y^o_1$};
+    \node at (mat-8-3) {$\vdots$};
+    \node at (mat-10-3) {$y^o_D$};
+
+    % Weights
     \foreach \ai in {3,6,9}
-        \draw[->] (mat-\ai-2) -- (mat-6-3);
-    \draw[->] (mat-6-3) -- node[above] {Ouput} +(2cm,0);
+        {\foreach \aii in {2,4,...,10}
+            \draw[->] (mat-\ai-2) -- (mat-\aii-3);
+        }
+
+    \foreach \ai in {2,4,...,10}
+        {\foreach \aii in {3,6,9}
+            \draw[->] (mat-\ai-1) -- (mat-\aii-2);
+        }
 \end{tikzpicture}

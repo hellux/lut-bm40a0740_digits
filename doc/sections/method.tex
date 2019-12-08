@@ -3,8 +3,11 @@
 \begin{document}
 
 \section{Method}
-This section covers all the steps taken in order to create and evaluate the
-classifer.
+A classifier has been created by training a multilayer perceptron neural
+network with the given training data of hand written digits. The given data is
+first partitioned into three subsets. The training data is preprocessed and
+turned into rasterized images of the digits. The images are then used to train
+the neural network.
 
 \subsection{Partitioning of training data}
 The training data is split up into three different subsets. Two sets are used
@@ -96,17 +99,12 @@ being scaled.
     \caption{Rasterization of a two with some noise.}
     \label{fig:raster_noise}
 \end{figure}
-Because the digits are written at different locations and in different sizes,
-rescaling and translation is performed to make similar shaped images
-comparable. Only the shape of the digit is interesting and the location and
-scale can therefore be changed without losing any useful information. Figure
-\ref{fig:scaling} shows two sixes being scaled. 
-
 When the digits are located in the same position and are of similar scale the
 digits can be rasterized. The rasterization is performed by rasterizing each
 line of the curve. The rasterization is performed by using Xiaolin Wu's line
 drawing algorithm. The algorithm is described in Wu's article in \emph{Computer
-Graphics}\cite{wu-line}.
+Graphics}\cite{wu-line}. The rasterization is done such that the image is $W
+\times W$ pixels large with $W = 20$.
 
 Each rasterized curve is then added to the final image by taking the maximum
 intensity of the previous pixel and the pixel of the curve.
@@ -161,10 +159,13 @@ implementation performs up to 1000 iterations before abrupting.
 
 This whole process is done multiple times but with different parameters. In the
 implementation, the parameter that is altered between the iterations is the
-number of neurons in the hidden layer. When multiple classifiers has been
-created, the one that performs the best on the validation set is selected and
-used. The performance is measured by the percentage of correctly classified
-digits, i.e. the average of the f1 score for all the classes.
+number of neurons in the hidden layer. This implemation uses 16 different
+numbers of hidden neurons, ranging from 10 to 25. 
+
+When multiple classifiers has been created, the one that performs the best on
+the validation set is selected and used. The performance is measured by the
+percentage of correctly classified digits, i.e. the average of the f1 score for
+all the classes.
 
 \subsubsection{Classification}
 In order to classify a digit the the digit is preprocessed as described above
