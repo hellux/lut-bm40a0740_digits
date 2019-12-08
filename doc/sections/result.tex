@@ -4,15 +4,30 @@
 
 \section{Result}
 A classifier has been implemented and trained as described in the previous
-section.
+section. The total training set was 1000 digits, the number of digits was 700,
+100 and 200 in the training, validation and testing set respectively.
 
 \subsection{Validation}
+The training phase produced 21 classifiers, with number of hidden neurons from
+10 to 30. The classifier that performed the best on the validation set was the
+one with 13 neurons in the hidden layer. It correctly classified 95\% of the
+samples in the validation set.
 
 \subsection{Testing}
+The selected classifier from the validation phase was tested on the training
+set. The resulting confusion matrix is shown in \ref{fig:confusion}. The
+classifier classified 96.5\% of the digits in the testing set correctly.
+Previous runs created classifiers with similare results, ranging from 92\% to
+97\%.
+
+7 of the 200 digits in the testing set were misclassified. These are shown in
+figure \ref{fig:incorrect}.
+
 \begin{figure}
     \hspace*{-2cm}
     \resizebox{1.2\textwidth}{!}{\input{build/fig/incorrect.tex}}
-    \caption{All incorrectly classified digits from the test set (N=200).}
+    \caption{The guess from the classifier vs the label for all incorrectly
+    classified digits from the test set (N=200).}
     \label{fig:incorrect}
 \end{figure}
 
@@ -22,18 +37,28 @@ section.
         & & \multicolumn{10}{c}{Actual digit}\\
         \multirow{10}{*}{\rotatebox{90}{Guessed digit}}
         &   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\\hline
-        & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-        & 1 & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+        & 0 & 19 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+        & 1 & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
         & 2 & 0 & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-        & 3 & 0 & 0 & 0 & 18 & 0 & 0 & 0 & 0 & 0 & 0\\
-        & 4 & 0 & 0 & 0 & 0 & 20 & 0 & 0 & 0 & 1 & 0\\
-        & 5 & 0 & 0 & 0 & 0 & 0 & 20 & 0 & 1 & 0 & 0\\
-        & 6 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0 & 0\\
-        & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 18 & 0 & 0\\
-        & 8 & 0 & 0 & 0 & 2 & 0 & 0 & 1 & 0 & 19 & 0\\
-        & 9 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 20\\
+        & 3 & 0 & 0 & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 0\\
+        & 4 & 0 & 0 & 0 & 0 & 20 & 0 & 1 & 0 & 0 & 0\\
+        & 5 & 1 & 0 & 0 & 0 & 0 & 18 & 0 & 1 & 0 & 0\\
+        & 6 & 0 & 0 & 0 & 0 & 0 & 1 & 19 & 0 & 0 & 0\\
+        & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 17 & 0 & 0\\
+        & 8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 20 & 0\\
+        & 9 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 20\\
     \end{tabular}
     \caption{Confusion matrix from classifications of the test dataset.}
     \label{fig:confusion}
 \end{table}
+
+
+
+
+
+
+
+
+
+
 \end{document}

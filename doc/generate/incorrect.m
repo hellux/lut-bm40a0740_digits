@@ -16,7 +16,7 @@ f_merge = @(a, b) max(a, b);
 
 figure('visible', 'off');
 n = length(incorrect);
-cols = 6;
+cols = 4;
 for j = 1:n
     i = incorrect(j);
     d = digits{tidx(i)};
@@ -31,17 +31,17 @@ for j = 1:n
     set(gca, 'xticklabel', {[]});
     set(gca, 'yticklabel', {[]});
     axis([0 W, 0 W], 'square');
-    g = cstrcat('guess: ', int2str(guesses(i)-1));
-    %a = cstrcat('actual: ', int2str(actual(i)-1));
-    title(cstrcat(g)); % ', ', a));
+    g = cstrcat(int2str(guesses(i)-1));
+    a = cstrcat(int2str(actual(i)-1));
+    title(cstrcat(g, ' vs ', a));
 end
 
 w = 6;
-h = 1;
+h = 3;
 screenpos = get(gcf,'Position');
 set(gcf,...
-  'Position', [1 1 w h],...
-  'PaperPosition', [1 1 w h],...
+  'Position', [0 0 w h],...
+  'PaperPosition', [0 0 w h],...
   'PaperSize', [w h]);
 
 print(strcat(dir, 'incorrect', '.tex'), '-dtex');
