@@ -23,7 +23,7 @@ function [wHidden, wOutput] = ...
     err_prev = 0;
     for t = 1:maxEpochs
         [yOutput, yHidden] = feedforward(x, wHidden, wOutput);
-        [wOutput, wHidden] = backpropagate(x, wHidden, wOutput,
+        [wOutput, wHidden] = backpropagate(x, wHidden, wOutput, ...
                                               yHidden, yOutput, trainOutput);
 
         err = sum(sum((yOutput-trainOutput).^2))/2;

@@ -1,5 +1,5 @@
 function c = digit_classify(testdata)
-    if ~exist('network')
+    if ~exist('wHidden')
         addpath('src/preprocess');
         addpath('src/mlp');
 

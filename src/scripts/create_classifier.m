@@ -13,7 +13,8 @@ digits = read_digits('training_data');
 disp('done.');
 
 % train network
-[wHidden, wOutput] = train_mlp(traindata, trainclass, valdata, valclass);
+[wHidden, wOutput, hidden, f1_val] = ...
+    train_mlp(traindata, trainclass, valdata, valclass);
 
 % save network to disk
 save('network.mat', 'wHidden', 'wOutput');
@@ -36,7 +37,8 @@ ppv = ppv(conf)
 % save results to disk
 guesses = c;
 actual = testclass;
-save('result.mat', 'incorrect', 'tidx', 'conf', 'guesses', 'actual');
+save('result.mat', 'incorrect', 'tidx', 'conf', ...
+     'guesses', 'actual', 'hidden', 'f1_val');
 
 disp('done.');
 
