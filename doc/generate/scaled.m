@@ -20,10 +20,10 @@ h = maxs(2)-mins(2);
 W0 = max(w, h);
 texscale = '-S200,200';
 dir = 'build/fig/';
+W = 20;
 
 for i = 1:length(digits)
     d = digits{i};
-    W = 28;
 
     scaled = rescale(d, W-2);
     suffix = strcat(int2str(i), '.tex');

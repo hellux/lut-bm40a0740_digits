@@ -4,6 +4,8 @@
 
 \section{Method}
 
+\subsection{Data subsets partitioning}
+
 \subsection{Preprocessing}
 The input data for each data is given as a list of 3D-coordinates that together
 form a curve in the shape of a digit. As the digits are aligned along the plane
@@ -107,12 +109,14 @@ One good thing about rasterization is that it decreases the impact of noise as
 is demonstrated in figure \ref{fig:raster_noise}. Also, duplicate overlapping
 lines will look the same as if there was only one line.
 
-\subsection{Neural network}
+\subsection{Training of neural network}
 The classifier was implemented using a multi-layer perceptron with one hidden
 layer. The input layer consists of all the pixels of the image resulting from
 the preprocessing of the input.
 
 The single hidden layer contains 10 neurons.  A lower number appears to
 decrease the performance while increasing only increases the training time.
+
+\subsection{Evaluation}
 
 \end{document}

@@ -7,12 +7,16 @@ AUX = .aux .log .toc .fls .fdb_latexmk .bbl .blg .out .lof .lot .bcf .run.xml
 LMKOPTS = -pdf -output-directory=${OBJDIR}
 LATEXMK = ${LMKVARS} latexmk ${LMKOPTS}
 
-report: plot_rasterized plot_scaled doc/report.pdf
+report: plots doc/report.pdf
 
-plot_rasterized: doc/generate/rasterized.m 
+plots: plot_scaled plot_rasterized plot_incorrect
+plot_scaled: doc/generate/scaled.m
 	mkdir -p ${FIGDIR}
 	octave $<
-plot_scaled: doc/generate/scaled.m
+plot_rasterized: doc/generate/rasterized.m
+	mkdir -p ${FIGDIR}
+	octave $<
+plot_incorrect: doc/generate/incorrect.m
 	mkdir -p ${FIGDIR}
 	octave $<
 

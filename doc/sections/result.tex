@@ -3,19 +3,32 @@
 \begin{document}
 
 \section{Result}
-\begin{equation*}
-    \begin{bmatrix}
-        24 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-        0 & 25 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-        1 & 0 & 25 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-        0 & 0 & 0 & 23 & 0 & 0 & 0 & 0 & 0 & 0\\
-        0 & 0 & 0 & 0 & 20 & 1 & 1 & 0 & 1 & 1\\
-        0 & 0 & 0 & 0 & 0 & 24 & 0 & 0 & 0 & 0\\
-        0 & 0 & 0 & 0 & 0 & 0 & 23 & 0 & 0 & 0\\
-        0 & 0 & 0 & 0 & 0 & 0 & 0 & 25 & 0 & 0\\
-        0 & 0 & 0 & 2 & 0 & 0 & 1 & 0 & 24 & 1\\
-        0 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 0 & 23
-    \end{bmatrix}
-\end{equation*}
+
+\begin{figure}
+    \resizebox{\textwidth}{!}{\input{build/fig/incorrect.tex}}
+    \caption{All incorrectly classified digits from the validation set (N=200).}
+    \label{fig:incorrect}
+\end{figure}
+
+\begin{table}
+    \centering
+    \begin{tabular}{rr|cccccccccc}
+        & & \multicolumn{10}{c}{Actual digit}\\
+        \multirow{10}{*}{\rotatebox{90}{Guessed digit}}
+        &   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\\hline
+        & 0 & 19 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+        & 1 & 0 & 20 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+        & 2 & 0 & 0 & 20 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+        & 3 & 0 & 0 & 0 & 19 & 1 & 0 & 0 & 0 & 0 & 0\\
+        & 4 & 0 & 0 & 0 & 1 & 19 & 0 & 0 & 0 & 0 & 1\\
+        & 5 & 0 & 0 & 0 & 0 & 0 & 17 & 0 & 0 & 0 & 0\\
+        & 6 & 1 & 0 & 0 & 0 & 0 & 2 & 19 & 0 & 0 & 0\\
+        & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0\\
+        & 8 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0\\
+        & 9 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 19\\
+    \end{tabular}
+    \caption{Confusion matrix from classifications of the validation dataset.}
+    \label{fig:confusion}
+\end{table}
 
 \end{document}
