@@ -129,12 +129,6 @@ is demonstrated in figure \ref{fig:raster_noise}. Also, duplicate overlapping
 lines will look the same as if there was only one line.
 
 \subsection{Neural network - multilayer perceptron}
-\begin{figure}
-    \centering
-    \input{doc/fig/mlp.tex}
-    \caption{}
-    \label{fig:mlp}
-\end{figure}
 The classifier was implemented using a multi-layer perceptron with one hidden
 layer. The input layer consists of all the intensities of the pixels of the
 grayscale image resulting from the preprocessing of the input. An additional
@@ -144,36 +138,98 @@ The details of a multi-layer perceptron is described in chapter 6 of the book
 \emph{Pattern Classification}\cite{hart-pattern}. Here will only be described
 shortly how the classifier of this project was implemented.
 
-\subsubsection{Feedforward}
-W -- input \\
-H -- hidden \\
-D -- output \\
+\subsubsection{Architecture}
+\begin{figure}[h]
+    \centering
+    \input{doc/fig/mlp.tex}
+    \caption{Visual representation of the neural network.}
+    \label{fig:mlp}
+\end{figure}
+The network consist of three layers of neurons as shown in \ref{fig:mlp}.  The
+first layer is the input layer $x$ with $\beta+1=W^2+1$ neurons, where $W$ is
+the width and height of the image of each digit. The input layer consists of
+each of the pixels plus an additional constant 1 which provides a bias.
 
-\begin{align*}
-    &x \in M_{W \times 1}, \qquad
-    \overline x = \left( x, 1 \right) \in M_{(W+1) \times 1}, \\
-    &y^h \in M_{H \times 1}, \qquad
-    \overline y^h = \left( y^h, 1 \right) \in M_{(H+1) \times 1}, \\
-    &y^o \in M_{D \times 1}, \\
-    &w^h \in M_{H \times (W + 1)}, \qquad
-    \overline w^h \in M_{H \times W}, \\
-    &w^o \in M_{D \times (H + 1)}, \qquad
-    \overline w^o \in M_{D \times H} \\
-    &y^h_i = \tanh \left( \sum_{k=1}^{W} x_k w^h_{i,k} + w^h_{i,W+1} \right)
-           = \tanh \left( w^h_i \cdot \overline x \right), \\
-    &i = 1..H, \\
-    &y^o_j = \sum_{i=1}^{H} y^h_i w^o_{j,i} + w^o_{j,H+1}
-           = w^o_j \cdot \overline y^h, \\
-    &j = 1..D, \\
-\end{align*}
+The second layer is the hidden layer with $H$ neurons.
+
+The last layer is the output layer, one neuron for each class of digit. The
+layer therefore has $D=10$ neurons. Between each consecutive layer are weights
+between each combination of neurons from each layer. These are represented by
+matrices. The matrix $w^h$ contains all the weights between the output layer
+and the hidden layer. $w^h_{i,k}$ is the weight from the $x_k$ input neuron to
+the $y^h_i$ neuron. Similarly, the matrix $w^o$ contains weights such that
+$w^o_{j,i}$ is the weight from the hidden $y^h_i$ neuron to the $y^o_j$ output
+neuron.
+
+%&x \in M_{\beta \times 1}, \qquad
+%\overline x = \left( x, 1 \right) \in M_{(\beta+1) \times 1}, \\
+%&y^h \in M_{H \times 1}, \qquad
+%\overline y^h = \left( y^h, 1 \right) \in M_{(H+1) \times 1}, \\
+%&y^o \in M_{D \times 1}, \\
+%&w^h \in M_{H \times (\beta + 1)}, \qquad
+%\overline w^h \in M_{H \times \beta}, \\
+%&w^o \in M_{D \times (H + 1)}, \qquad
+%\overline w^o \in M_{D \times H} \\
+%&i = 1..H, \\
+%&j = 1..D, \\
+\subsubsection{Feedforward}
+The feedforward operation takes an input layer and a network in the form of
+weigths and gives values for all the neurons in the hidden layer and the output
+layer. Each neuron of each hidden layer is given by summing all the weighted
+values of the previous layer and then applying an activation function. In this
+implementation, the $\tanh$ function is used and the $i$:th neuron of the
+single hidden layer is calculated as
+\begin{equation*}
+    y^h_i = \tanh \left(
+                    \sum_{k=1}^{\beta} x_k w^h_{i,k} + w^h_{i,\beta+1}
+                   \right)
+           = \tanh \left( w^h_i \cdot \overline x \right).
+\end{equation*}
+The output layer is calculated similarly but without the activation function as
+\begin{equation*}
+    y^o_j = \sum_{i=1}^{H} y^h_i w^o_{j,i} + w^o_{j,H+1}
+          = w^o_j \cdot \overline y^h.
+\end{equation*}
 
 \subsubsection{Backpropagation}
+When the feedforward operation has been performed, we can compare the given
+result $y^o$ in the output layer with the wanted result $y^w$. For the wanted
+result $y^w$, the neuron which represents the given digit is 1 and all
+remaining neurons are zero.
+
+It is then possible to adjust the weights in order to make the network get a
+result closer to the wanted result when performing the feedforward operation.
+This can be done with something called backpropagation. In short, it works by
+using gradient descent to find a local minimum in the error function. The new
+weights are calculated by subtracting the previous weights with the gradient as
 \begin{align*}
     &J = \frac{(y^o - y^w)^2}{2}, \\
-    &w^h_{i,k} = w^h_{i,k} - \rho \; \frac{\partial J}{\partial w^h_{i,k}}
-               = w^h_{i,k} - \rho \; x_k w^o_{i,k}(y^o - y^w)\\
-    &w^o_{j,i} = w^o_{j,i} - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
-               = w^h_{j,i} - \rho \; \overline y^h_i (y^o_j - y^w_j)\\
+    &w^o_{j,i}(\textrm{new}) = w^o_{j,i} - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
+               = w^o_{j,i} - \rho \; \overline y^h_i (y^o_j - y^w_j)\\
+    &w^h_{i,k}(\textrm{new}) = w^h_{i,k} - \rho \; \frac{\partial J}{\partial w^h_{i,k}}
+               = w^h_{i,k} - \rho \; w^o_i(y^o - y^w)
+                             \frac{\partial y^h_i}{\partial w^h_{i,k}}\\
+\end{align*}
+where $\rho$ is a constant called the learning rate which determines how fast
+the descent will be. The partial derivative $\frac{\partial y^h_i}{\partial
+w^h_{i,k}}$ is the partial derivative of the activation function which can be
+further simplified and approximated as
+\begin{align*}
+    \frac{\partial y^h_i}{\partial w^h_{i,k}}
+        &= \textrm{sech}^2\left( w^h_i \cdot \overline x \right) x_k \\
+        &= \left(1-\left( w^h_i \cdot \overline x \right)^2
+            + \mathcal{O}\left( w^h_i \cdot \overline x \right)^4
+           \right) x_k\\
+        &= \left(1-\left(\tanh\left( w^h_i \cdot \overline x\right)
+            - \mathcal{O}\left(w^h_i \cdot \overline x \right)^3 \right)^2
+                + \mathcal{O}\left( w^h_i \cdot \overline x \right)^4
+           \right) x_k\\
+        &= \left(1-\left(
+                    y^h_i - \mathcal{O}\left(w^h_i \cdot \overline x \right)^3
+                   \right)^2
+                + \mathcal{O}\left( w^h_i \cdot \overline x \right)^4
+           \right) x_k\\
+        &\approx \left(1-(y^h_i)^2)\right) x_k.
 \end{align*}
 
 \subsubsection{Training}
