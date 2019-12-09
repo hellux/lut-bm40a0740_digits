@@ -1,4 +1,5 @@
-% Separate labeled cell array of digit images to data and class matrices.
+% Turn a cell array of images into a matrix where each row is a list of
+% pixels for a sample.
 function data = imgs2trainmatrices(d)
     N = length(d);
     [a, b] = size(d{1});

@@ -1,3 +1,4 @@
+% Create a classifier with a multilayer perceptron.
 function [wHidden, wOutput] = ...
   mlp(traindata, trainclass, maxEpochs, hiddenNeurons)
     N = size(traindata, 1); % Number of samples

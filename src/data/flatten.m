@@ -1,5 +1,5 @@
-% flatten cell of digit sets to a merged set with accompanying labels in
-% separate vector.
+% Flatten a cell array of digit sets to a merged set with accompanying labels
+% in a separate vector.
 function [flat, class] = flatten(digits)
     flat = cell(1, 0);
     class = zeros(0, 1);

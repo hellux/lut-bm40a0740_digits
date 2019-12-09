@@ -1,4 +1,6 @@
-% read labeled digits located in dirpath
+% Read labeled digits located in dirpath.
+% Digits will be placed in a cell array such that cell i contains all the
+% samples labeled as i+1.
 function digits = read_digits(dirpath)
     digits = {};
     for i = 0:9

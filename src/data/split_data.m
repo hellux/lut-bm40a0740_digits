@@ -1,3 +1,4 @@
+% Split randomly a cell array of digits into two different cell arrays.
 function [set1, set2, idx1, idx2] = split_data(data, p1, p2)
     m = length(data);
 
