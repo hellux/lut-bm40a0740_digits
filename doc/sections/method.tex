@@ -3,11 +3,12 @@
 \begin{document}
 
 \section{Method}
-A classifier has been created by training a multilayer perceptron neural
-network with the given training data of hand written digits. The given data is
-first partitioned into three subsets. The training data is preprocessed and
+A classifier has is created by training a multilayer perceptron neural network
+with the given training data of hand written digits. The given data is first
+partitioned into three subsets. The training data is then preprocessed and
 turned into rasterized images of the digits. The images are then used to train
-the neural network.
+the neural network. Finally the trained classifier is evaluated using a subset
+of the given data that was not used during the training.
 
 \subsection{Partitioning of training data}
 The training data is split up into three different subsets. Two sets are used
@@ -16,8 +17,9 @@ set is used to train multiple classifiers with different parameters, and the
 validation set is used to select which of these classifiers to use. The third
 and final set, the test set, is used after the training is completed in order
 to evaluate how well the classifier performs. The subsets were selected
-randomly but uniformly for each digit. The distribution was 70\%, 10\% and 20\%
-for the training, validation and test set respectively.
+randomly but such that each subset has a uniform distribution of classes. The
+distribution of the data was 70\%, 10\% and 20\% for the training, validation
+and test set respectively.
 
 \subsection{Preprocessing}
 The input data for each data is given as a list of 3D-coordinates that together
@@ -146,9 +148,10 @@ shortly how the classifier of this project was implemented.
     \label{fig:mlp}
 \end{figure}
 The network consist of three layers of neurons as shown in \ref{fig:mlp}.  The
-first layer is the input layer $x$ with $\beta+1=W^2+1$ neurons, where $W$ is
-the width and height of the image of each digit. The input layer consists of
-each of the pixels plus an additional constant 1 which provides a bias.
+first layer is the input layer $x$ with $\beta=W^2$ neurons, where $W$ is the
+width and height of the image of each digit. The input layer consists of each
+of the pixels plus an additional constant 1 which provides a bias, this is
+denoted as $\overline x$.
 
 The second layer is the hidden layer with $H$ neurons.
 
@@ -188,8 +191,10 @@ single hidden layer is calculated as
 The output layer is calculated similarly but without the activation function as
 \begin{equation*}
     y^o_j = \sum_{i=1}^{H} y^h_i w^o_{j,i} + w^o_{j,H+1}
-          = w^o_j \cdot \overline y^h.
+          = w^o_j \cdot \overline y^h
 \end{equation*}
+where $\overline y^h$ is the hidden layer with a single 1 added in the end as a
+bias.
 
 \subsubsection{Backpropagation}
 When the feedforward operation has been performed, we can compare the given
@@ -204,11 +209,13 @@ using gradient descent to find a local minimum in the error function. The new
 weights are calculated by subtracting the previous weights with the gradient as
 \begin{align*}
     &J = \frac{(y^o - y^w)^2}{2}, \\
-    &w^o_{j,i}(\textrm{new}) = w^o_{j,i} - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
-               = w^o_{j,i} - \rho \; \overline y^h_i (y^o_j - y^w_j)\\
-    &w^h_{i,k}(\textrm{new}) = w^h_{i,k} - \rho \; \frac{\partial J}{\partial w^h_{i,k}}
-               = w^h_{i,k} - \rho \; w^o_i(y^o - y^w)
-                             \frac{\partial y^h_i}{\partial w^h_{i,k}}\\
+    &w^o_{j,i}(\textrm{new}) = w^o_{j,i}
+            - \rho \; \frac{\partial J}{\partial w^o_{j,i}}
+        = w^o_{j,i} - \rho \; \overline y^h_i (y^o_j - y^w_j)\\
+    &w^h_{i,k}(\textrm{new}) = w^h_{i,k}
+            - \rho \; \frac{\partial J}{\partial w^h_{i,k}}
+        = w^h_{i,k} - \rho \; w^o_i(y^o - y^w)
+            \frac{\partial y^h_i}{\partial w^h_{i,k}}
 \end{align*}
 where $\rho$ is a constant called the learning rate which determines how fast
 the descent will be. The partial derivative $\frac{\partial y^h_i}{\partial

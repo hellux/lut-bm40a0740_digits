@@ -3,10 +3,6 @@
 \begin{document}
 
 \section{Discussion and conclusion}
-
-\subsection{Method}
-
-\subsection{Result}
 Initially, there were some worries concerning the given training data. Some
 were very crookedly drawn or very noisy. Interestingly enough, none of these
 were wrongly classified by the final classifier. The misclassified digits look
@@ -14,10 +10,13 @@ perfectly drawn and were not at all difficult to read for a human. Also, some
 of the ones from the given training data very much look like sevens, and some
 of the sevens very much look like ones. Despite this, the classifier didn't mix
 up any ones with sevens or vice versa. It did however have problems with some
-sevens, but classified them as 9 or 5 instead.
+sevens, but classified them as 9 or 5 instead. Overall, it is surprising that
+the misclassified digits all look perfect while the crooked or uncertain ones
+wasn't misclassified at all. This might be worrying and it is difficult to know
+if it works well on other datasets.
 
-Changing the setup of the data didn't seem to change very much the performance
-of the classifier. The F1 score stayed above 90\% for all setups except when
+Changing the setup and paramaters didn't seem to change the performance of the
+classifier very much. The F1 score stayed above 90\% for all setups except when
 the dilation was removed. Without dilation, every run performed worse than with
 dilation. This suggests that the dilation may have somehow helped the neural
 network.
@@ -26,5 +25,12 @@ The F1 score almost went below 90\% when the learning rate was set low while
 maintaining the same number of iterations, but with more iterations it went up
 to 95\%. It seems that 1000 iterations is not enough to converge with that low
 of a learning rate.
+
+The resolution $W$ of the image didn't have much of an impact on the results,
+it mostly impacted the training time because it increases the number of neurons
+in the input layer.
+
+In conclusion, a classifier has been implemented and evaluated to work decently
+when tested against a test subset from the given data.
 
 \end{document}
