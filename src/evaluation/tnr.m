@@ -1,6 +1,6 @@
 % true negative rate, i.e specificity
 function y = tnr(conf)
-    tn = tn(conf);
-    fp = fp(conf);
-    y = tn / (tn + fp);
+    tn0 = tn(conf);
+    fp0 = fp(conf);
+    y = tn0 / (tn0 + fp0);
 end
