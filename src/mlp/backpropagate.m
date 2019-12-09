@@ -5,7 +5,6 @@ function [wOutput, wHidden] = ...
     deltaOutput = (yOutput-trainOutput);
     deltaHidden = (wOutput(1:end-1, :)*deltaOutput) .* ...
                   (1 - yHidden(1:end-1,:).^2);
-
     deltawHidden = -rho*x'*deltaHidden';
     deltawOutput = -rho*yHidden*deltaOutput';
     wOutput = wOutput + deltawOutput;

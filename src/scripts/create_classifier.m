@@ -30,9 +30,9 @@ for i = 1:length(c)
 end
 
 f1 = f1_score(conf)
-tpr = tpr(conf)
-tnr = tnr(conf)
-ppv = ppv(conf)
+tpr0 = tpr(conf)
+tnr0 = tnr(conf)
+ppv0 = ppv(conf)
 
 % save results to disk
 guesses = c;
