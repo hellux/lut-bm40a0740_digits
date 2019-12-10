@@ -9,7 +9,8 @@ LATEXMK = ${LMKVARS} latexmk ${LMKOPTS}
 
 STNUM = stnum
 
-report: plots doc/report.pdf
+report: plot_scaled plot_rasterized plot_incorrect network.mat doc/report.pdf
+pres: plot_incorrect plot_preprocess doc/pres.pdf
 
 network.mat:
 	octave src/scripts/create_classifier.m
@@ -27,7 +28,9 @@ zip: report network.mat
 	cp ${OBJDIR}/report.pdf ${OBJDIR}/${STNUM}
 	cd ${OBJDIR} && zip -r ${STNUM}.zip ${STNUM}
 
-plots: plot_scaled plot_rasterized plot_incorrect network.mat
+plot_preprocess: doc/generate/preprocess.m
+	mkdir -p ${FIGDIR}
+	octave $<
 plot_scaled: doc/generate/scaled.m
 	mkdir -p ${FIGDIR}
 	octave $<
