@@ -6,108 +6,65 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{color}
-\usepackage{tikz}
-\usepackage[top=8mm, bottom=0mm, left=4mm, right=4mm]{geometry}
-\usetikzlibrary{matrix}
+\usepackage[top=13mm, bottom=0mm, left=4mm, right=4mm]{geometry}
 
-\pagestyle{empty}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\authorB}
+\chead{Group 13}
+\lhead{\authorA}
 
 \renewcommand{\familydefault}{\sfdefault}
-\newenvironment{slide}[1]{\clearpage
-    {\LARGE\bfseries#1\par}
-}{}
-
 \begin{document}
 
-\begin{titlepage}
-    \begin{center}
-        \includegraphics[height=18mm]{doc/res/LUT-LOGO-CMYK-PDF.pdf}\\
-        \vspace{3mm}
-        {\small {\textsc{Lappeenranta University of Technology}}}\\
-        \vspace{3mm}
-        {\small {\textsc{\courseNumber{} - \courseName}}}\\
-        \vfill
-        {\bfseries \LARGE \docTitle}\\
-        \vfill
-        {\large \docDate}\\
-        \vfill
-        \def\tabcolsep{1.5cm}
-        \begin{tabular}{lr}
-            \textsc{\authorA} & \textsc{\authorB}
-        \end{tabular}
-        \vspace*{5mm}
-    \end{center}
-\end{titlepage}
-
-%\begin{slide}{Overview}
-%    \begin{itemize}
-%        \item Preproccessing
-%        \item Neural network (multilayer perceptron)
-%        \item Evaluation
-%    \end{itemize}
-%\end{slide}
-
-\begin{slide}{Preprocessing}
-    \vspace{1cm}
-    \begin{figure}[h]
-        \centering
-        \begin{subfigure}[t]{0.20\textwidth}
-            \resizebox{\textwidth}{!}{\input{build/fig/preprocess_0.tex}}
-            \caption{raw}
-        \end{subfigure}%
-        {$\rightarrow$}
-        \begin{subfigure}[t]{0.2\textwidth}
-            \resizebox{\textwidth}{!}{\input{build/fig/preprocess_2.tex}}
-            \caption{scaled and translated}
-        \end{subfigure}
-        {$\rightarrow$}
-        \begin{subfigure}[t]{0.20\textwidth}
-            \hspace*{4mm}
-            \resizebox{0.92\textwidth}{!}{%
-                \includegraphics{build/fig/rasterize_1.png}
-            }
-            \vfill
-            \caption{rasterized}
-        \end{subfigure}%
-        {$\rightarrow$}
-        \begin{subfigure}[t]{0.20\textwidth}
-            \centering
-            \hspace*{1mm}
-            \resizebox{0.92\textwidth}{!}{%
-                \includegraphics{build/fig/rasterize_2.png}
-            }
-            \vfill
-            \caption{dilated}
-        \end{subfigure}
-    \end{figure}
-\end{slide}
-
-\begin{slide}{Neural network}
-    \begin{minipage}{0.35\textwidth}
-        \begin{itemize}
-            \item Multilayer perceptron with single hidden layer.
-            \item 400 pixel intensities + bias as input neurons.
-            \item 1000 iterations of feedforward and backpropagation on 700
-                training samples.
-            \item Multiple networks with different number of hidden neurons.
-            \item Each classifier compared using a validation set (N=100).
-        \end{itemize}
-    \end{minipage}
-    \begin{minipage}{0.65\textwidth}
-        \vspace*{-5mm}
-        \centering
-        \resizebox*{\textwidth}{!}{\input{doc/fig/mlp.tex}}
-    \end{minipage}
-\end{slide}
-
-\begin{slide}{Evaluation}
+\begin{figure}[h]
     \centering
+    \begin{subfigure}[t]{0.20\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/preprocess_0.tex}}
+        \caption{raw}
+    \end{subfigure}%
+    {$\rightarrow$}
+    \begin{subfigure}[t]{0.2\textwidth}
+        \resizebox{\textwidth}{!}{\input{build/fig/preprocess_2.tex}}
+        \caption{scaled and translated}
+    \end{subfigure}
+    {$\rightarrow$}
+    \begin{subfigure}[t]{0.20\textwidth}
+        \hspace*{4mm}
+        \resizebox{0.92\textwidth}{!}{%
+            \includegraphics{build/fig/rasterize_1.png}
+        }
+        \vfill
+        \caption{rasterized}
+    \end{subfigure}%
+    {$\rightarrow$}
+    \begin{subfigure}[t]{0.20\textwidth}
+        \centering
+        \hspace*{1mm}
+        \resizebox{0.92\textwidth}{!}{%
+            \includegraphics{build/fig/rasterize_2.png}
+        }
+        \vfill
+        \caption{dilated}
+    \end{subfigure}
+\end{figure}
+\hspace*{-8mm}
+\begin{minipage}{0.5\textwidth}
     \begin{itemize}
-        %\item 95\% of 100 validation samples correctly classified.
+        \item Multilayer perceptron with single hidden layer.
+        \item 400 pixel intensities + bias as input neurons.
+        \item 1000 iterations of feedforward and backpropagation on 700
+            training samples.
+    \end{itemize}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+    \begin{itemize}
+        \item Multiple networks with different number of hidden neurons.
+        \item Each network compared using a validation set (N=100). Winning
+            network 13 hidden neurons, 95\% of validation samples correct.
         \item 96.5\% of 200 test samples correctly classified.
     \end{itemize}
-    \centering
-    \resizebox*{0.9\textwidth}{!}{\input{build/fig/incorrect.tex}}
-\end{slide}
+\end{minipage}
 
 \end{document}
